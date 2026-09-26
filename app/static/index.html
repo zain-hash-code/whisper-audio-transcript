@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Audio Transcription Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <div class="studio-wrapper">
+    <!-- Top Studio Console Header -->
+    <header class="studio-header">
+      <div class="header-left">
+        <div class="sound-mark">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+            <path d="M12 2v20M17 6v12M7 6v12M2 10v4M22 10v4"/>
+          </svg>
+        </div>
+        <div class="header-titles">
+          <h1 class="product-title">Audio Transcription Studio</h1>
+          <span class="system-status-indicator" id="system-status-text">CTranslate2 INT8 &bull; Ready</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <!-- Theme Toggle Button -->
+        <button type="button" class="theme-toggle-btn" id="theme-toggle" title="Switch between light and dark theme" aria-label="Toggle theme">
+          <svg class="sun-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+          </svg>
+          <svg class="moon-icon hidden" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+          </svg>
+          <span class="theme-label" id="theme-label">Dark</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace Layout -->
+    <main class="studio-workspace">
+      <!-- Upper Section: Input & Model Config -->
+      <section class="console-panel">
+        <div class="input-header-bar">
+          <div class="mode-selector">
+            <button type="button" class="mode-tab active" id="tab-upload">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Upload Audio File
+            </button>
+            <button type="button" class="mode-tab" id="tab-record">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg>
+              Record Speech
+            </button>
+          </div>
+
+          <div class="samples-helper">
+            <span class="helper-text">Sample:</span>
+            <button type="button" class="btn-sample" data-sample="sample_speech.mp3">MP3</button>
+            <button type="button" class="btn-sample" data-sample="sample_speech.m4a">M4A</button>
+            <button type="button" class="btn-sample" data-sample="sample_speech.wav">WAV</button>
+          </div>
+        </div>
+
+        <!-- Mode 1: File Upload Dropzone -->
+        <div class="panel-body" id="upload-panel">
+          <div class="drop-target" id="dropzone">
+            <input type="file" id="file-input" accept="audio/*,video/*,.mp3,.wav,.m4a,.aac,.ogg,.opus,.flac,.webm,.wma,.mp4,.mkv" hidden />
+            <div class="drop-icon">
+              <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="17 8 12 3 7 8"/>
+                <line x1="12" y1="3" x2="12" y2="15"/>
+              </svg>
+            </div>
+            <div class="drop-details">
+              <p class="drop-heading">Choose an audio file or drag and drop it here</p>
+              <p class="drop-subtext">Supports MP3, WAV, M4A, FLAC, OGG, WEBM, MP4, and standard media formats</p>
+            </div>
+            <button type="button" class="btn-action-outline" id="browse-btn">Select File</button>
+          </div>
+
+          <!-- Staged File Card -->
+          <div class="loaded-file-row hidden" id="file-preview-card">
+            <div class="file-badge-type" id="preview-format-badge">AUDIO</div>
+            <div class="file-name-meta">
+              <span class="file-title" id="preview-filename">recording.mp3</span>
+              <span class="file-info" id="preview-filemeta">0.0 MB</span>
+            </div>
+            <button type="button" class="btn-dismiss" id="remove-file-btn" title="Remove file" aria-label="Remove file">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mode 2: Live Microphone Studio -->
+        <div class="panel-body hidden" id="record-panel">
+          <div class="live-rec-stage">
+            <div class="oscilloscope-container">
+              <canvas id="visualizer-canvas" height="96"></canvas>
+            </div>
+
+            <div class="rec-metrics-bar">
+              <div class="rec-timer-tag" id="recording-timer">00:00:00</div>
+              <div class="rec-actions">
+                <button type="button" class="btn-record-main" id="record-toggle-btn">
+                  <span class="tally-circle" id="rec-dot"></span>
+                  <span id="record-btn-text">Start Recording</span>
+                </button>
+                <button type="button" class="btn-action-ghost hidden" id="record-cancel-btn">Discard</button>
+              </div>
+            </div>
+
+            <div class="live-transcript-preview" id="live-speech-box">
+              <span class="preview-tag">Live Speech Monitor</span>
+              <p class="preview-stream" id="live-speech-text">Click "Start Recording" to speak into your microphone.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Configuration Bar -->
+        <div class="config-grid">
+          <div class="config-field">
+            <label for="model-select">Model</label>
+            <select id="model-select" class="console-select">
+              <option value="tiny">Tiny (Fastest &bull; ~1s)</option>
+              <option value="base" selected>Base (Recommended)</option>
+              <option value="small">Small (High Accuracy)</option>
+              <option value="medium">Medium (Professional)</option>
+            </select>
+          </div>
+
+          <div class="config-field">
+            <label for="language-select">Spoken Language</label>
+            <select id="language-select" class="console-select">
+              <option value="auto" selected>Auto-Detect (99+ languages)</option>
+              <option value="en">English</option>
+              <option value="es">Spanish</option>
+              <option value="fr">French</option>
+              <option value="de">German</option>
+              <option value="it">Italian</option>
+              <option value="pt">Portuguese</option>
+              <option value="ru">Russian</option>
+              <option value="zh">Chinese</option>
+              <option value="ja">Japanese</option>
+              <option value="ko">Korean</option>
+              <option value="ar">Arabic</option>
+              <option value="ur">Urdu</option>
+              <option value="hi">Hindi</option>
+              <option value="tr">Turkish</option>
+            </select>
+          </div>
+
+          <div class="config-field">
+            <label for="task-select">Task</label>
+            <select id="task-select" class="console-select">
+              <option value="transcribe" selected>Transcribe</option>
+              <option value="translate">Translate to English</option>
+            </select>
+          </div>
+
+          <div class="config-field">
+            <label for="quality-select">Beam Search</label>
+            <select id="quality-select" class="console-select">
+              <option value="5" selected>Standard (Beam 5)</option>
+              <option value="1">Turbo (Beam 1)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Execute Transcription CTA -->
+        <div class="launch-row">
+          <button type="button" class="btn-execute" id="transcribe-btn" disabled>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <span id="transcribe-btn-text">Transcribe Audio</span>
+          </button>
+        </div>
+
+        <!-- Loading Activity Bar -->
+        <div class="status-progress-track hidden" id="progress-container">
+          <div class="status-info-row">
+            <div class="spinner-dot"></div>
+            <span class="status-msg" id="progress-label">Processing audio...</span>
+          </div>
+          <div class="indeterminate-bar"><div class="fill-slider"></div></div>
+        </div>
+      </section>
+
+      <!-- Audio Player Console Bar -->
+      <section class="player-panel hidden" id="audio-player-card">
+        <audio id="audio-playback" preload="metadata"></audio>
+        <div class="player-inner">
+          <div class="player-btn-group">
+            <button type="button" class="player-icon-action" id="player-jump-back" title="Rewind 5 seconds" aria-label="Rewind 5 seconds">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+            </button>
+            <button type="button" class="player-play-toggle" id="player-play-btn" title="Play or Pause" aria-label="Play or pause">
+              <svg id="play-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              <svg id="pause-icon" class="hidden" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+            </button>
+            <button type="button" class="player-icon-action" id="player-jump-fwd" title="Skip forward 5 seconds" aria-label="Forward 5 seconds">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            </button>
+          </div>
+
+          <div class="player-timeline-box">
+            <span class="time-readout" id="player-cur-time">00:00</span>
+            <div class="scrub-groove" id="scrubber-track">
+              <div class="scrub-fill" id="scrubber-progress"></div>
+              <div class="scrub-pip" id="scrubber-thumb"></div>
+            </div>
+            <span class="time-readout" id="player-total-time">00:00</span>
+          </div>
+
+          <div class="player-tail-controls">
+            <div class="speed-wrap">
+              <button type="button" class="btn-speed-pill" id="speed-btn">1.0x</button>
+              <div class="speed-popup hidden" id="speed-menu">
+                <button data-speed="0.75">0.75x</button>
+                <button data-speed="1.0" class="active">1.0x</button>
+                <button data-speed="1.25">1.25x</button>
+                <button data-speed="1.5">1.5x</button>
+                <button data-speed="2.0">2.0x</button>
+              </div>
+            </div>
+
+            <div class="vol-group">
+              <button type="button" class="player-icon-action" id="mute-btn" title="Toggle sound" aria-label="Mute or unmute">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              </button>
+              <input type="range" id="vol-slider" class="range-vol" min="0" max="1" step="0.05" value="1" aria-label="Audio volume" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Transcription Results Panel -->
+      <section class="transcript-panel hidden" id="results-section">
+        <!-- Summary Stats Header -->
+        <div class="metrics-row">
+          <div class="metric-item">
+            <span class="m-caption">Audio Duration</span>
+            <span class="m-data" id="stat-duration">0.0s</span>
+          </div>
+          <div class="metric-item">
+            <span class="m-caption">Processing Time</span>
+            <span class="m-data" id="stat-time">0.0s</span>
+          </div>
+          <div class="metric-item">
+            <span class="m-caption">Language</span>
+            <span class="m-data" id="stat-lang">EN (99%)</span>
+          </div>
+          <div class="metric-item">
+            <span class="m-caption">Word Count</span>
+            <span class="m-data" id="stat-words">0 words</span>
+          </div>
+        </div>
+
+        <!-- Transcript Actions & Search Toolbar -->
+        <div class="transcript-toolbar">
+          <div class="view-switch">
+            <button type="button" class="view-tab active" id="view-segments-btn">Timeline View</button>
+            <button type="button" class="view-tab" id="view-text-btn">Document View</button>
+          </div>
+
+          <div class="filter-search-box">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="search-input" placeholder="Search transcript..." />
+            <span class="match-badge hidden" id="search-count">0 hits</span>
+          </div>
+
+          <div class="export-actions">
+            <button type="button" class="btn-tool" id="copy-btn">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              Copy
+            </button>
+            
+            <div class="dropdown-wrapper">
+              <button type="button" class="btn-tool-accent" id="export-dropdown-btn">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Export
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              
+              <div class="export-flyout hidden" id="export-menu">
+                <button type="button" data-format="txt">
+                  <span class="fmt-tag">TXT</span>
+                  <span>Plain Text (.txt)</span>
+                </button>
+                <button type="button" data-format="txt_timestamps">
+                  <span class="fmt-tag">TXT</span>
+                  <span>Timestamped (.txt)</span>
+                </button>
+                <button type="button" data-format="srt">
+                  <span class="fmt-tag">SRT</span>
+                  <span>SubRip Subtitles (.srt)</span>
+                </button>
+                <button type="button" data-format="vtt">
+                  <span class="fmt-tag">VTT</span>
+                  <span>WebVTT Captions (.vtt)</span>
+                </button>
+                <button type="button" data-format="json">
+                  <span class="fmt-tag">JSON</span>
+                  <span>Structured Data (.json)</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline Segments -->
+        <div class="manuscript-timeline" id="segments-container"></div>
+
+        <!-- Plain Document View -->
+        <div class="manuscript-document hidden" id="plain-text-container">
+          <div class="doc-actions-bar">
+            <span>Clean Text View</span>
+            <button type="button" class="btn-copy-doc" id="copy-doc-btn">Copy Text</button>
+          </div>
+          <div class="doc-content" id="full-transcript-body"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Toast Element -->
+  <div id="toast" class="studio-toast hidden">
+    <span id="toast-msg">Action completed</span>
+  </div>
+
+  <script src="/static/js/recorder.js"></script>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

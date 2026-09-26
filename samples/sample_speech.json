@@ -1,0 +1,191 @@
+{
+  "text": "Hello and welcome. This is a complete test of the high-efficiency audio transcription system. It transcribes audio files and live speech with exceptional speed and accuracy.",
+  "language": "en",
+  "language_probability": 0.993,
+  "duration": 12.08,
+  "processing_time": 59.92,
+  "model_used": "base",
+  "task": "transcribe",
+  "segments": [
+    {
+      "id": 1,
+      "start": 0.0,
+      "end": 5.84,
+      "text": "Hello and welcome. This is a complete test of the high-efficiency audio transcription system.",
+      "words": [
+        {
+          "word": " Hello",
+          "start": 0.0,
+          "end": 0.34,
+          "probability": 0.9
+        },
+        {
+          "word": " and",
+          "start": 0.34,
+          "end": 0.62,
+          "probability": 0.94
+        },
+        {
+          "word": " welcome.",
+          "start": 0.62,
+          "end": 0.96,
+          "probability": 0.92
+        },
+        {
+          "word": " This",
+          "start": 1.92,
+          "end": 2.18,
+          "probability": 0.98
+        },
+        {
+          "word": " is",
+          "start": 2.18,
+          "end": 2.32,
+          "probability": 1.0
+        },
+        {
+          "word": " a",
+          "start": 2.32,
+          "end": 2.44,
+          "probability": 1.0
+        },
+        {
+          "word": " complete",
+          "start": 2.44,
+          "end": 2.76,
+          "probability": 0.99
+        },
+        {
+          "word": " test",
+          "start": 2.76,
+          "end": 3.12,
+          "probability": 0.99
+        },
+        {
+          "word": " of",
+          "start": 3.12,
+          "end": 3.3,
+          "probability": 1.0
+        },
+        {
+          "word": " the",
+          "start": 3.3,
+          "end": 3.42,
+          "probability": 0.99
+        },
+        {
+          "word": " high",
+          "start": 3.42,
+          "end": 3.6,
+          "probability": 0.6
+        },
+        {
+          "word": "-efficiency",
+          "start": 3.6,
+          "end": 4.02,
+          "probability": 0.8
+        },
+        {
+          "word": " audio",
+          "start": 4.02,
+          "end": 4.5,
+          "probability": 0.98
+        },
+        {
+          "word": " transcription",
+          "start": 4.5,
+          "end": 5.14,
+          "probability": 0.99
+        },
+        {
+          "word": " system.",
+          "start": 5.14,
+          "end": 5.84,
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "start": 6.49,
+      "end": 11.07,
+      "text": "It transcribes audio files and live speech with exceptional speed and accuracy.",
+      "words": [
+        {
+          "word": " It",
+          "start": 6.49,
+          "end": 6.91,
+          "probability": 0.99
+        },
+        {
+          "word": " transcribes",
+          "start": 6.91,
+          "end": 7.61,
+          "probability": 0.96
+        },
+        {
+          "word": " audio",
+          "start": 7.61,
+          "end": 7.93,
+          "probability": 0.86
+        },
+        {
+          "word": " files",
+          "start": 7.93,
+          "end": 8.37,
+          "probability": 1.0
+        },
+        {
+          "word": " and",
+          "start": 8.37,
+          "end": 8.61,
+          "probability": 0.98
+        },
+        {
+          "word": " live",
+          "start": 8.61,
+          "end": 8.81,
+          "probability": 0.87
+        },
+        {
+          "word": " speech",
+          "start": 8.81,
+          "end": 9.19,
+          "probability": 0.96
+        },
+        {
+          "word": " with",
+          "start": 9.19,
+          "end": 9.45,
+          "probability": 0.99
+        },
+        {
+          "word": " exceptional",
+          "start": 9.45,
+          "end": 9.93,
+          "probability": 0.98
+        },
+        {
+          "word": " speed",
+          "start": 9.93,
+          "end": 10.33,
+          "probability": 0.99
+        },
+        {
+          "word": " and",
+          "start": 10.33,
+          "end": 10.59,
+          "probability": 1.0
+        },
+        {
+          "word": " accuracy.",
+          "start": 10.59,
+          "end": 11.07,
+          "probability": 1.0
+        }
+      ]
+    }
+  ],
+  "word_count": 26,
+  "character_count": 173
+}
